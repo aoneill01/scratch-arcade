@@ -1,16 +1,23 @@
 import { useEffect, useRef } from "react";
 import "../lib/player";
+import { games } from "./games";
 
-export default function GamePlayer({ id = "752478243" }) {
+export default function GamePlayer({ index = 0 }) {
   const canvas = useRef();
   const vm = useRef();
+  const loading = useRef(null);
+
+  if (index < 0) {
+    index = games.length + index % games.length;
+  }
+  index %= games.length;
 
   useEffect(() => {
     const initVM = () => {
       vm.current = new window.player.VirtualMachine();
       const renderer = new window.player.ScratchRender(canvas.current);
-      canvas.current.width = "960";
-      canvas.current.height = "720";
+    //   canvas.current.width = "960";
+    //   canvas.current.height = "720";
       const audioEngine = new window.player.AudioEngine();
       const storage = new window.player.ScratchStorage();
       const AssetType = storage.AssetType;
@@ -39,11 +46,14 @@ export default function GamePlayer({ id = "752478243" }) {
 
     if (!vm.current) {
       initVM();
-      loadGame("About Me").then(() => {
-        setTimeout(() => loadGame("Origami Crane Animation"), 2000);
-      });
     }
-  }, [id]);
+
+    const game = games[index];
+    if (loading.current !== game.title) {
+        loading.current = game.title;
+        loadGame(game.title);
+    }
+  }, [index]);
 
   return <canvas ref={canvas}></canvas>;
 }

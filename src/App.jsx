@@ -4,12 +4,12 @@ import GamePicker from "./GamePicker";
 import GamePlayer from "./GamePlayer";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
     <>
-      <GamePicker />
-      <GamePlayer />
+      <GamePicker onSelected={(i) => setSelectedIndex(i)} />
+      <GamePlayer index={selectedIndex} />
     </>
   );
 }

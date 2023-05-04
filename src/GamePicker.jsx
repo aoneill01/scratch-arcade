@@ -13,7 +13,7 @@ function getPosition(i, offset) {
   const middle = (screenWidth - boxWidth) / 2;
   const wrap = games.length;
 
-  let position = i + offset;
+  let position = i - offset;
   if (position < 0) {
     position = wrap + (position % wrap);
   }
@@ -24,21 +24,24 @@ function getPosition(i, offset) {
   return middle + (boxWidth + boxMargin) * position;
 }
 
-export default function GamePicker() {
+export default function GamePicker({ onSelected }) {
   const acceleration = useRef(0);
   const velocity = useRef(0);
   const position = useRef(0);
   const selected = useRef(0);
+  const handleSelected = useRef();
   const [offset, setOffset] = useState(0);
+
+  handleSelected.current = onSelected;
 
   useEffect(() => {
     const onKeyDown = (event) => {
       switch (event.key) {
         case "ArrowLeft":
-          acceleration.current = 1;
+          acceleration.current = -1;
           break;
         case "ArrowRight":
-          acceleration.current = -1;
+          acceleration.current = 1;
           break;
         default:
         // nothing
@@ -47,14 +50,16 @@ export default function GamePicker() {
     const onKeyUp = (event) => {
       switch (event.key) {
         case "ArrowLeft":
-          if (acceleration.current === 1) acceleration.current = 0;
-          selected.current = Math.ceil(position.current);
-          if ((selected.current - position.current) / velocity.current < 0.03) selected.current++;
-          break;
-        case "ArrowRight":
           if (acceleration.current === -1) acceleration.current = 0;
           selected.current = Math.floor(position.current);
           if ((selected.current - position.current) / velocity.current < 0.03) selected.current--;
+          handleSelected.current(selected.current);
+          break;
+        case "ArrowRight":
+          if (acceleration.current === 1) acceleration.current = 0;
+          selected.current = Math.ceil(position.current);
+          if ((selected.current - position.current) / velocity.current < 0.03) selected.current++;
+          handleSelected.current(selected.current);
           break;
         default:
         // nothing
