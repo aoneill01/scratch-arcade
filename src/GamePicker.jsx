@@ -24,13 +24,13 @@ function getPosition(i, offset) {
   return middle + (boxWidth + boxMargin) * position;
 }
 
-export default function GamePicker({ onSelected }) {
+export default function GamePicker({ onSelected, initialOffset }) {
   const acceleration = useRef(0);
   const velocity = useRef(0);
-  const position = useRef(0);
-  const selected = useRef(0);
+  const position = useRef(initialOffset);
+  const selected = useRef(initialOffset);
   const handleSelected = useRef();
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(initialOffset);
 
   handleSelected.current = onSelected;
 
@@ -39,10 +39,16 @@ export default function GamePicker({ onSelected }) {
       switch (event.key) {
         case "ArrowLeft":
           acceleration.current = -1;
+          selected.current = null;
           break;
         case "ArrowRight":
           acceleration.current = 1;
+          selected.current = null;
           break;
+        case " ":
+          if (selected.current !== null) {
+            handleSelected.current(selected.current);
+          }
         default:
         // nothing
       }
@@ -53,13 +59,11 @@ export default function GamePicker({ onSelected }) {
           if (acceleration.current === -1) acceleration.current = 0;
           selected.current = Math.floor(position.current);
           if ((selected.current - position.current) / velocity.current < 0.03) selected.current--;
-          handleSelected.current(selected.current);
           break;
         case "ArrowRight":
           if (acceleration.current === 1) acceleration.current = 0;
           selected.current = Math.ceil(position.current);
           if ((selected.current - position.current) / velocity.current < 0.03) selected.current++;
-          handleSelected.current(selected.current);
           break;
         default:
         // nothing
@@ -90,11 +94,11 @@ export default function GamePicker({ onSelected }) {
 
   return (
     <div className="App">
-      <svg width="640" height="480" viewBox="0 0 640 480">
+      <svg viewBox="0 0 640 480" style={{ width: "100vw", aspectRatio: "640/480" }}>
         <style>
           {`.title {
                 font: bold 18px 'Gugi', sans-serif;
-              }`}
+            }`}
         </style>
 
         <rect width="640" height="480" fill="#855CD6" />

@@ -4,12 +4,21 @@ import GamePicker from "./GamePicker";
 import GamePlayer from "./GamePlayer";
 
 function App() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [initialOffset, setInitialOffset] = useState(0);
 
   return (
     <>
-      <GamePicker onSelected={(i) => setSelectedIndex(i)} />
-      <GamePlayer index={selectedIndex} />
+      {selectedIndex === null && <GamePicker initialOffset={initialOffset} onSelected={(i) => setSelectedIndex(i)} />}
+      <div style={{ display: selectedIndex === null ? "none" : "initial" }}>
+        <GamePlayer
+          index={selectedIndex}
+          onQuit={() => {
+            setInitialOffset(selectedIndex);
+            setSelectedIndex(null);
+          }}
+        />
+      </div>
     </>
   );
 }
