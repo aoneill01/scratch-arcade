@@ -3,15 +3,16 @@ import BoxArt from "./BoxArt";
 import { themes } from "./themes";
 import { games } from "./games";
 import { useAnimationFrame } from "./useAnimationFrame";
+import Floater from "./Floater";
 
 const orderedThemes = [themes.orange, themes.blue, themes.red, themes.green, themes.yellow, themes.pink];
 
-function getPosition(i, offset) {
-  const boxWidth = 150;
-  const boxMargin = 10;
-  const screenWidth = 640;
+function getPosition(i, offset, velocity) {
+  const boxWidth = 300;
+  const boxMargin = 20;
+  const screenWidth = 1920;
   const middle = (screenWidth - boxWidth) / 2;
-  const wrap = games.length;
+  const wrap = games.length * 2;
 
   let position = i - offset;
   if (position < 0) {
@@ -21,8 +22,26 @@ function getPosition(i, offset) {
   if (position > wrap / 2) {
     position -= wrap;
   }
-  return middle + (boxWidth + boxMargin) * position;
+  return middle + (boxMargin + boxWidth) * position;
 }
+
+const getScale = (i, offset, velocity) => {
+  const wrap = games.length * 2;
+
+  let position = i - offset;
+  if (position < 0) {
+    position = wrap + (position % wrap);
+  }
+  position %= wrap;
+  if (position > wrap / 2) {
+    position -= wrap;
+  }
+  const distance = Math.abs(position);
+  const maxDistance = 2.1;
+  if (distance > maxDistance) return 0.8;
+  const factor = -(Math.cos((Math.PI * distance) / maxDistance) - 1) / 2;
+  return 1 - 0.2 * factor;
+};
 
 export default function GamePicker({ onSelected, initialOffset }) {
   const acceleration = useRef(0);
@@ -94,27 +113,37 @@ export default function GamePicker({ onSelected, initialOffset }) {
 
   return (
     <div className="App">
-      <svg viewBox="0 0 640 480" style={{ width: "100vw", aspectRatio: "640/480" }}>
+      <svg viewBox="0 0 1920 1080" style={{ width: "100vw", aspectRatio: "1920/1080" }}>
         <style>
           {`.title {
-                font: bold 18px 'Gugi', sans-serif;
+                font: bold 32px 'Gugi', sans-serif;
             }`}
         </style>
 
-        <rect width="640" height="480" fill="#855CD6" />
+        <defs>
+          <linearGradient id="backgroundGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#774DCB" />
+            <stop offset="100%" stopColor="#9966FF" />
+          </linearGradient>
+        </defs>
 
-        {games.map((game, i) => (
+        <rect width="1920" height="1080" fill="url(#backgroundGradient)" />
+
+        {[...games, ...games].map((game, i) => (
           <BoxArt
-            key={game.id}
-            x={getPosition(i, offset)}
-            y="130"
+            key={i}
+            x={getPosition(i, offset, velocity.current)}
+            y="300"
+            scale={getScale(i, offset, velocity.current)}
             title={game.title}
             theme={orderedThemes[i % orderedThemes.length]}
             thumbnail={`https://uploads.scratch.mit.edu/projects/thumbnails/${game.id}.png`}
           />
         ))}
 
-        <rect width="170" height="220" x="235" y="120" stroke="#FFAB19" strokeWidth="10" fill="none" />
+        <Floater offset={offset} />
+
+        {/* <rect width="340" height="440" x="790" y="280" stroke="#FFAB19" strokeWidth="20" fill="none" /> */}
       </svg>
     </div>
   );
