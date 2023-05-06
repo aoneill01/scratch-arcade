@@ -129,6 +129,13 @@ export default function GamePicker({ onSelected, initialOffset }) {
 
         <rect width="1920" height="1080" fill="url(#backgroundGradient)" />
 
+        <Floater offset={offset + 5} distance={20} y={950} theme={themes.orange} />
+        <Floater offset={offset + 130} distance={18} y={250} theme={themes.pink} />
+        <Floater offset={offset + 85} distance={14} y={750} theme={themes.red} />
+        <Floater offset={offset + 80} distance={12} y={130} theme={themes.yellow} />
+        <Floater offset={offset + 80} distance={10.5} y={650} theme={themes.blue} />
+        <Floater offset={offset} distance={10} y={60} theme={themes.green} />
+
         {[...games, ...games].map((game, i) => (
           <BoxArt
             key={i}
@@ -140,8 +147,6 @@ export default function GamePicker({ onSelected, initialOffset }) {
             thumbnail={`https://uploads.scratch.mit.edu/projects/thumbnails/${game.id}.png`}
           />
         ))}
-
-        <Floater offset={offset} />
 
         {/* <rect width="340" height="440" x="790" y="280" stroke="#FFAB19" strokeWidth="20" fill="none" /> */}
       </svg>
