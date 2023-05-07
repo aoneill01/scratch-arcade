@@ -44,7 +44,7 @@ export default function GamePlayer({ index = 0, onQuit }) {
 
     const loadGame = async (name) => {
       vm.current.stopAll();
-      const response = await fetch(`/games/${name}.sb3`);
+      const response = await fetch(`games/${name}.sb3`);
       const buffer = await response.arrayBuffer();
       await vm.current.loadProject(buffer);
       vm.current.start();
