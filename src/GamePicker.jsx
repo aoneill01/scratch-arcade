@@ -111,6 +111,18 @@ export default function GamePicker({ onSelected, initialOffset }) {
     setOffset(position.current);
   });
 
+  const getGame = () => {
+    if (selected.current === null) return null;
+
+    let index = selected.current;
+    if (index < 0) {
+      index = games.length + (index % games.length);
+    }
+    index %= games.length;
+
+    return games[index];
+  };
+
   return (
     <div className="App">
       <svg viewBox="0 0 1920 1080" style={{ width: "100vw", aspectRatio: "1920/1080" }}>
@@ -129,7 +141,7 @@ export default function GamePicker({ onSelected, initialOffset }) {
 
         <rect width="1920" height="1080" fill="url(#backgroundGradient)" />
 
-        <Floater offset={offset + 5} distance={20} y={950} theme={themes.orange} />
+        <Floater offset={offset + 5} distance={20} y={1000} theme={themes.orange} />
         <Floater offset={offset + 130} distance={18} y={250} theme={themes.pink} />
         <Floater offset={offset + 85} distance={14} y={750} theme={themes.red} />
         <Floater offset={offset + 80} distance={12} y={130} theme={themes.yellow} />
@@ -147,9 +159,9 @@ export default function GamePicker({ onSelected, initialOffset }) {
             thumbnail={`https://uploads.scratch.mit.edu/projects/thumbnails/${game.id}.png`}
           />
         ))}
-
-        {/* <rect width="340" height="440" x="790" y="280" stroke="#FFAB19" strokeWidth="20" fill="none" /> */}
       </svg>
+
+      <div className="game-description">{getGame()?.title}</div>
     </div>
   );
 }
