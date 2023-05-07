@@ -81,10 +81,14 @@ export default function GamePlayer({ index = 0, onQuit }) {
 
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("keyup", onKeyUp);
+    document.addEventListener("custombuttondown", onKeyDown);
+    document.addEventListener("custombuttonup", onKeyUp);
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("keyup", onKeyUp);
+      document.removeEventListener("custombuttondown", onKeyDown);
+      document.removeEventListener("custombuttonup", onKeyUp);
     };
   }, [index]);
 

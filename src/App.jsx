@@ -2,10 +2,12 @@ import { useState } from "react";
 import "./App.css";
 import GamePicker from "./GamePicker";
 import GamePlayer from "./GamePlayer";
+import { useGamepadEvents } from "./useGamepadEvents";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [initialOffset, setInitialOffset] = useState(0);
+  useGamepadEvents();
 
   return (
     <>

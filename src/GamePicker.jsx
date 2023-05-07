@@ -90,10 +90,14 @@ export default function GamePicker({ onSelected, initialOffset }) {
     };
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("keyup", onKeyUp);
+    document.addEventListener("custombuttondown", onKeyDown);
+    document.addEventListener("custombuttonup", onKeyUp);
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("keyup", onKeyUp);
+      document.removeEventListener("custombuttondown", onKeyDown);
+      document.removeEventListener("custombuttonup", onKeyUp);
     };
   }, []);
 
