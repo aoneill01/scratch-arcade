@@ -19,12 +19,8 @@ export default function GamePlayer({ index = 0, onQuit }) {
     const initVM = () => {
       vm.current = new window.player.VirtualMachine();
       const renderer = new window.player.ScratchRender(canvas.current);
-      canvas.current.width = document.body.clientWidth;
-      canvas.current.height = (document.body.clientWidth * 360) / 480;
-      if (canvas.current.height > document.body.clientHeight) {
-        canvas.current.width = (document.body.clientHeight * 480) / 360;
-        canvas.current.height = document.body.clientHeight;
-      }
+      canvas.current.height = (1080 / 1920) * document.body.clientWidth;
+      canvas.current.width = (canvas.current.height * 480) / 360;
       const audioEngine = new window.player.AudioEngine();
       const storage = new window.player.ScratchStorage();
       const AssetType = storage.AssetType;
@@ -48,7 +44,7 @@ export default function GamePlayer({ index = 0, onQuit }) {
       const buffer = await response.arrayBuffer();
       await vm.current.loadProject(buffer);
       vm.current.start();
-      vm.current.greenFlag();
+      setTimeout(() => vm.current.greenFlag(), 2000);
     };
 
     const onKeyDown = (event) => {
