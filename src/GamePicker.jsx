@@ -163,6 +163,16 @@ export default function GamePicker({ onSelected, initialOffset }) {
             thumbnail={`https://uploads.scratch.mit.edu/projects/thumbnails/${game.id}.png`}
           />
         ))}
+
+        <image
+          href="https://raw.githubusercontent.com/scratchfoundation/scratch-www/develop/static/svgs/conference/footer/scratch-logo.svg"
+          x="500"
+          y="80"
+          width="500"
+        />
+        <text x="1000" y="410" transform="skewY(-11)" className="title" fill="white" style={{ fontSize: 100 }}>
+          -cade
+        </text>
       </svg>
 
       <div className="game-description">{getGame()?.title}</div>

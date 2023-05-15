@@ -1,15 +1,16 @@
 import { gsap } from "gsap";
 import { useEffect } from "react";
+import { themes } from "./themes";
 
 const size = 120;
 const rows = 1080 / size;
 const cols = 1920 / size;
 
 function calculateDelay(row, col) {
-  if ((row + col) % 2 === 0) {
-    return row + col;
-  }
-  return 30 + rows - 1 + cols - 1 - (row + col);
+  // if ((row + col) % 2 === 0) {
+  return row + col;
+  // }
+  // return 30 + rows - 1 + cols - 1 - (row + col);
 }
 
 export default function Transition({ transition }) {
@@ -20,8 +21,8 @@ export default function Transition({ transition }) {
     for (const square of squares) {
       tl.fromTo(
         square,
-        { scale: 0, fill: "black", rotation: 0, transformOrigin: "center" },
-        { scale: 1, rotation: 180, duration: 1, delay: square.dataset.delay / 50 },
+        { scale: 0, opacity: 0.4, fill: themes.blue.stroke, rotation: 0, transformOrigin: "center" },
+        { scale: 1, opacity: 1, rotation: 180, duration: 1, delay: square.dataset.delay / 20 },
         0
       );
     }
@@ -38,8 +39,8 @@ export default function Transition({ transition }) {
             key={`${row}-${col}`}
             x={col * size}
             y={row * size}
-            width={size + 1}
-            height={size + 1}
+            width={size + 2}
+            height={size + 2}
             fill="none"
             className="square"
             data-delay={calculateDelay(row, col)}
