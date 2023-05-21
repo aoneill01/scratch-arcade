@@ -5,7 +5,7 @@
   overflow: hidden;
 }
 
-.game-description {
+#game-description {
   box-sizing: border-box;
   background-color: white;
   border-radius: 0.25vw;
@@ -19,7 +19,7 @@
   font-size: 2vw;
 }
 
-.game-description::before {
+#game-description::before {
   content: "";
   position: absolute;
   top: -1vw;
