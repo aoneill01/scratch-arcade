@@ -7,16 +7,19 @@
     <title>Scratch-cade</title>
   </head>
   <body>
-    <div id="root">
+    <main id="root">
+      <h1>Scratch-cade</h1>
+
       <svg id="transition" viewBox="0 0 1920 1080"></svg>
-      <div class="App">
-        <svg id="game-picker" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+
+      <div id="game-picker">
+        <svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
           <style>
             .title {
-              font: bold 32px 'Gugi', sans-serif;
+              font: bold 32px "Gugi", sans-serif;
             }
           </style>
-  
+
           <defs>
             <linearGradient id="backgroundGradient" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stop-color="#774DCB" />
@@ -36,15 +39,16 @@
             y="80"
             width="500"
           />
-          <text x="1000" y="410" transform="skewY(-11)" class="title" fill="white" style="font-size: 100">
-            -cade
-          </text>
+          <text x="1000" y="410" transform="skewY(-11)" class="title" fill="white" style="font-size: 100">-cade</text>
         </svg>
-  
-        <div id="game-description"></div>
+
+        <div id="game-description">
+          <div><section></section></div>
+        </div>
       </div>
-      <canvas style="display: none" />
-    </div>
+
+      <canvas id="game-player" style="display: none" />
+    </main>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Gugi&display=swap");
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-height: 100vh;
+  background-color: #855cd6;
+}
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+#transition {
+  aspect-ratio: 1920/1080;
+  position: absolute;
+  right: 0;
+  width: 100vw;
+  z-index: 5;
+  pointer-events: none;
+}
+
+#game-picker svg {
+  aspect-ratio: 1920/1080;
+  width: 100vw;
+}
+
+#game-description {
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 0.5vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 50vw;
+  height: 16vw;
+  margin: 10vw 0 0 -25vw;
+  font-size: 1.5vw;
+  text-align: left;
+}
+
+#game-description::before {
+  content: "";
+  position: absolute;
+  top: -1vw;
+  left: 50%;
+  margin-left: -1vw;
+  height: 2vw;
+  width: 2vw;
+  transform: rotate(45deg);
+  background-color: #fff;
+  z-index: -1;
+  border-top-left-radius: 0.25vw;
+}
+
+#game-description > div {
+  border-radius: 0.5vw;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+#game-description section {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  padding: 1vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #774dcb;
+}
+
+section::-webkit-scrollbar {
+  width: 1em;
+}
+
+section::-webkit-scrollbar-track {
+  background: white;
+}
+
+section::-webkit-scrollbar-thumb {
+  background-color: #855cd6; /* color of the scroll thumb */
+  border-radius: 0.5em; /* roundness of the scroll thumb */
+  border: 0.2em solid white; /* creates padding around scroll thumb */
+}
+
+h1 {
+  display: none;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.25em;
+}
+
+pre {
+  margin: 0;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  white-space: pre-wrap;
+}
