@@ -18,6 +18,8 @@ const movement = {
   Right: { x: 1, y: 0 },
 };
 const directions = Object.keys(movement);
+const cursor = document.getElementById("cursor");
+const canvas = document.getElementById("game-canvas");
 
 export function setMouseMode(enabled, vm) {
   mouseMode = enabled;
@@ -51,10 +53,7 @@ export function handleButtonDown(event, vm) {
 
   if (event.button === "A") {
     vm.postIOData("mouse", {
-      x: position.x,
-      y: position.y,
-      canvasWidth: 480,
-      canvasHeight: 360,
+      ...getMouseData(),
       isDown: true,
     });
     return true;
@@ -73,10 +72,7 @@ export function handleButtonUp(event, vm) {
 
   if (event.button === "A") {
     vm.postIOData("mouse", {
-      x: position.x,
-      y: position.y,
-      canvasWidth: 480,
-      canvasHeight: 360,
+      ...getMouseData(),
       isDown: false,
     });
     return true;
@@ -117,21 +113,24 @@ export function handleAnimationFrame(delta, time, vm) {
   moveCursor(vm);
 }
 
+function getMouseData() {
+  const x = (canvas.clientWidth * position.x) / 480;
+  const y = (canvas.clientHeight * position.y) / 360;
+
+  return {
+    x,
+    y,
+    canvasWidth: canvas.clientWidth,
+    canvasHeight: canvas.clientHeight,
+  }
+}
+
 function moveCursor(vm) {
-  vm.postIOData("mouse", {
-    x: position.x,
-    y: position.y,
-    canvasWidth: 480,
-    canvasHeight: 360,
-  });
+  const data = getMouseData();
+  vm.postIOData("mouse", data);
 
-  const cursor = document.getElementById("cursor");
-  const canvas = document.getElementById("game-canvas");
-  const x = canvas.offsetLeft + (canvas.clientWidth * position.x) / 480;
-  const y = canvas.offsetTop + (canvas.clientHeight * position.y) / 360;
-
-  cursor.style.top = `${y}px`;
-  cursor.style.left = `${x}px`;
+  cursor.style.top = `${canvas.offsetTop + data.y}px`;
+  cursor.style.left = `${canvas.offsetLeft + data.x}px`;
 }
 
 function easeOutQuad(t) {
