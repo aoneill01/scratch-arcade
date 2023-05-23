@@ -31,4 +31,8 @@ export const games = [
     instructions:
       "Use the arrow keys to fly around. Collect stars for points while avoiding balls!\r\n\r\nPost a comment with your high score!",
   },
+  {
+    id: "819860842",
+    title: "Haunted Dalle",
+  },
 ];

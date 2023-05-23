@@ -120,3 +120,9 @@ pre {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   white-space: pre-wrap;
 }
+
+#cursor {
+  position: fixed;
+  width: 1vw;
+  height: 1vw;
+}

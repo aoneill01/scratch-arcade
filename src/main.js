@@ -13,6 +13,7 @@ import {
   init as initPlayer,
   show as showPlayer,
   hide as hidePlayer,
+  handleAnimationFrame as handleAnimationFramePlayer,
   handleButtonDown as handleButtonDownPlayer,
   handleButtonUp as handleButtonUpPlayer,
   loadGame,
@@ -65,8 +66,13 @@ function handleAnimationFrame(time) {
 
   if (previousTime) {
     const deltaTime = (time - previousTime) / 1000;
-    if (mode !== "playing") {
-      handleAnimationFramePicker(deltaTime, time);
+    switch (mode) {
+      case "playing":
+        handleAnimationFramePlayer(deltaTime, time);
+        break;
+      default:
+        handleAnimationFramePicker(deltaTime, time);
+        break;
     }
   }
   previousTime = time;

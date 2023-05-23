@@ -47,7 +47,12 @@
         </div>
       </div>
 
-      <canvas id="game-player" style="display: none" />
+      <div id="game-player" style="display: none">
+        <canvas id="game-canvas"></canvas>
+        <svg width="10" height="10 " id="cursor" viewBox="0 0 10 10">
+          <path d="M 0,0 h 10 l -10,10 z" fill="red" />
+        </svg>
+      </div>
     </main>
     <script type="module" src="/src/main.js"></script>
   </body>
