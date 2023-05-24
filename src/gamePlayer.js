@@ -1,4 +1,5 @@
 import "../lib/player";
+import { reset, updateMonitors } from "./monitors";
 import {
   handleButtonDown as handleButtonDownMouse,
   handleButtonUp as handleButtonUpMouse,
@@ -33,11 +34,13 @@ export function init(quit) {
   vm.attachAudioEngine(audioEngine);
   vm.attachV2BitmapAdapter(new ScratchSVGRenderer.BitmapAdapter());
   vm.setCompatibilityMode(true);
+  vm.addListener("MONITORS_UPDATE", (monitors) => updateMonitors(monitors, vm));
 }
 
 export async function loadGame(game) {
   setMouseMode(false, vm);
   vm.stopAll();
+  reset();
   const response = await fetch(`games/${game.title}.sb3`);
   const buffer = await response.arrayBuffer();
   await vm.loadProject(buffer);

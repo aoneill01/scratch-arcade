@@ -125,3 +125,13 @@ pre {
   position: fixed;
   width: 2vw;
 }
+
+#monitors > div {
+  position: fixed;
+  background-color: #ff8c1acc;
+  color: white;
+  font-size: 2vw;
+  font-weight: bold;
+  border-radius: 0.5vw;
+  padding: 0 1vw;
+}
