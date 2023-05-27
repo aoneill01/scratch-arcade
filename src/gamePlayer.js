@@ -41,7 +41,7 @@ export async function loadGame(game) {
   setMouseMode(false, vm);
   vm.stopAll();
   reset();
-  const response = await fetch(`games/${game.title}.sb3`);
+  const response = await fetch(game.sb3);
   const buffer = await response.arrayBuffer();
   await vm.loadProject(buffer);
   vm.start();

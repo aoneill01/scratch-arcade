@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "webpack": "webpack --config ./webpack.config.cjs"
+    "webpack": "webpack --config ./webpack.config.cjs",
+    "process-games": "node processGames.js",
+    "download-game": "node downloadGame.js"
   },
   "dependencies": {
     "gsap": "^3.11.5",
@@ -22,6 +24,8 @@
     "arraybuffer-loader": "^1.0.8",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
+    "node-fetch": "^3.3.1",
+    "selenium-webdriver": "^4.9.2",
     "vite": "^4.3.2",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"

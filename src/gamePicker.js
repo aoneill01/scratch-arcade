@@ -169,7 +169,7 @@ function createBoxArt(game, index, insertAfter) {
   g.appendChild(background);
 
   const art = document.createElementNS(svgNS, "image");
-  art.setAttribute("href", `https://uploads.scratch.mit.edu/projects/thumbnails/${game.id}.png`);
+  art.setAttribute("href", game.image);
   art.setAttribute("width", "260");
   art.setAttribute("height", "195");
   art.setAttribute("x", "20");
@@ -332,5 +332,11 @@ function setGameDescription() {
     const notes = document.createElement("pre");
     notes.innerText = game.notes;
     description.appendChild(notes);
+  }
+
+  if (game.author) {
+    const author = document.createElement("p");
+    author.innerText = `Created by ${game.author}`;
+    description.appendChild(author);
   }
 }

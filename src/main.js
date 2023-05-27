@@ -1,6 +1,6 @@
 import "./main.css";
 import { hide, init as initTransition, reveal } from "./transition.js";
-import { games } from "./games.js";
+import { loadGames } from "./games.js";
 import {
   init as initPicker,
   handleAnimationFrame as handleAnimationFramePicker,
@@ -24,10 +24,12 @@ import { handleAnimationFrame as handleAnimationFrameGamepad } from "./gamepadEv
 let previousTime;
 let mode = "picking";
 
-init();
-reveal();
 
-function init() {
+init();
+
+async function init() {
+  const games = await loadGames();
+  
   initTransition();
   initPicker(games, handleSelectGame);
   initPlayer(handleExit);
@@ -37,6 +39,8 @@ function init() {
   document.addEventListener("custombuttondown", handleButtonDown);
   document.addEventListener("custombuttonup", handleButtonUp);
   requestAnimationFrame(handleAnimationFrame);
+  
+  await reveal();
 }
 
 function handleButtonDown(event) {
