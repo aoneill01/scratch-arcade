@@ -1,15 +1,10 @@
 import "../lib/player";
+import { GamepadHandler } from "./gamepadHandler";
 import { reset, updateMonitors } from "./monitors";
-import {
-  handleButtonDown as handleButtonDownMouse,
-  handleButtonUp as handleButtonUpMouse,
-  handleAnimationFrame as handleAnimationFrameMouse,
-  setMouseMode,
-  getMouseMode,
-} from "./mouseState";
 
 let vm;
 let onQuit;
+let gamepadHandler;
 
 export function init(quit) {
   onQuit = quit;
@@ -38,7 +33,9 @@ export function init(quit) {
 }
 
 export async function loadGame(game) {
-  setMouseMode(false, vm);
+  gamepadHandler = new GamepadHandler(vm, "!UDLRS_____!^V<>*_____", onQuit);
+  // gamepadHandler = new GamepadHandler(vm, "!^V<>*_____!UDLRS_____", onQuit);
+
   vm.stopAll();
   reset();
   const response = await fetch(game.sb3);
@@ -60,33 +57,13 @@ export function hide() {
 }
 
 export function handleButtonDown(event) {
-  if (handleButtonDownMouse(event, vm)) return;
-
-  if (event.player === 1 && event.button === "Start") {
-    setMouseMode(!getMouseMode(), vm);
-  }
-
-  vm.postIOData("keyboard", {
-    key: event.key,
-    isDown: true,
-  });
+  gamepadHandler.handleButtonDown(event);
 }
 
 export function handleButtonUp(event) {
-  if (handleButtonUpMouse(event, vm)) return;
-
-  if (event.key === "Escape") {
-    vm.stopAll();
-    onQuit();
-    return;
-  }
-
-  vm.postIOData("keyboard", {
-    key: event.key,
-    isDown: false,
-  });
+  gamepadHandler.handleButtonUp(event);
 }
 
 export function handleAnimationFrame(delta, time) {
-  handleAnimationFrameMouse(delta, time, vm);
+  gamepadHandler.handleAnimationFrame(delta, time);
 }

@@ -124,6 +124,12 @@ pre {
 #cursor {
   position: fixed;
   width: 2vw;
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+#cursor.hidden {
+  opacity: 0;
 }
 
 #monitors > div {
