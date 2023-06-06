@@ -87,7 +87,7 @@ body {
 }
 
 section::-webkit-scrollbar {
-  width: 1em;
+  width: 0.7em;
 }
 
 section::-webkit-scrollbar-track {
@@ -96,7 +96,7 @@ section::-webkit-scrollbar-track {
 
 section::-webkit-scrollbar-thumb {
   background-color: #855cd6; /* color of the scroll thumb */
-  border-radius: 0.5em; /* roundness of the scroll thumb */
+  border-radius: 0.35em; /* roundness of the scroll thumb */
   border: 0.2em solid white; /* creates padding around scroll thumb */
 }
 
@@ -111,7 +111,7 @@ h2 {
 }
 
 h3 {
-  margin: 0;
+  margin: 0.5em 0 0 0;
   font-size: 1.25em;
 }
 
@@ -119,6 +119,13 @@ pre {
   margin: 0;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   white-space: pre-wrap;
+}
+
+#game-description p {
+  margin: 1em 0 0 0;
+  font-weight: bold;
+  font-size: 1vw;
+  white-space: pre-line;
 }
 
 #cursor {

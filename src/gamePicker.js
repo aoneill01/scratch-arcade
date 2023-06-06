@@ -46,7 +46,13 @@ export function handleAnimationFrame(deltaTime, time) {
   }
   velocity = Math.max(Math.min(velocity, maxVelocity), -maxVelocity);
   if (Math.abs(velocity) < 0.001) velocity = 0;
+  const previousOffset = offset;
   offset += velocity * deltaTime;
+
+  if ((velocity > 0 && Math.floor(offset - .05) !== Math.floor(previousOffset - .05)) ||
+    (velocity < 0 && Math.floor(offset + .05) !== Math.floor(previousOffset + .05))) {
+    playSound();
+  }
 
   // Reposition a small number of boxes around the center
   const rounded = Math.round(offset);
@@ -73,28 +79,34 @@ export function handleAnimationFrame(deltaTime, time) {
 }
 
 export function handleButtonDown(event) {
-  switch (event.key) {
-    case "ArrowLeft":
+  switch (event.button) {
+    case "Left":
       acceleration = -1;
       selected = null;
       setGameDescription();
       break;
-    case "ArrowRight":
+    case "Right":
       acceleration = 1;
       selected = null;
       setGameDescription();
       break;
-    case "ArrowDown":
+    case "Down":
       document
         .querySelector("#game-description section")
         .scrollBy({ top: document.body.clientWidth / 10, behavior: "smooth" });
       break;
-    case "ArrowUp":
+    case "Up":
       document
         .querySelector("#game-description section")
         .scrollBy({ top: -document.body.clientWidth / 10, behavior: "smooth" });
       break;
-    case " ":
+    case "Start":
+    case "A":
+    case "B":
+    case "C":
+    case "X":
+    case "Y":
+    case "Z":
       if (selected !== null) {
         selectGame(getSelectedGame());
       }
@@ -105,14 +117,14 @@ export function handleButtonDown(event) {
 }
 
 export function handleButtonUp(event) {
-  switch (event.key) {
-    case "ArrowLeft":
+  switch (event.button) {
+    case "Left":
       if (acceleration === -1) acceleration = 0;
       selected = Math.floor(offset);
       if ((selected - offset) / velocity < 0.03) selected--;
       setGameDescription();
       break;
-    case "ArrowRight":
+    case "Right":
       if (acceleration === 1) acceleration = 0;
       selected = Math.ceil(offset);
       if ((selected - offset) / velocity < 0.03) selected++;
@@ -206,14 +218,6 @@ function createBoxArt(game, index, insertAfter) {
   logo.setAttribute("x", "120");
   logo.setAttribute("y", "312");
   g.appendChild(logo);
-
-  const cc = document.createElementNS(svgNS, "image");
-  cc.setAttribute("href", "https://mirrors.creativecommons.org/presskit/icons/cc.svg");
-  cc.setAttribute("width", "30");
-  cc.setAttribute("height", "30");
-  cc.setAttribute("x", "20");
-  cc.setAttribute("y", "354");
-  g.appendChild(cc);
 
   insertAfter.after(g);
   setTitle(line1, line2, game.title);
@@ -336,7 +340,37 @@ function setGameDescription() {
 
   if (game.author) {
     const author = document.createElement("p");
-    author.innerText = `Created by ${game.author}`;
+    author.innerText = `Author: ${game.author}\nProject ID: ${game.id}\nCC BY-SA`;
     description.appendChild(author);
   }
+}
+
+const context = new AudioContext();
+
+function playSound() {
+  const frequencyIncrease = Math.abs(velocity) * 20;
+  const noise = new OscillatorNode(context, { frequency: 1000 + frequencyIncrease, type: "triangle" });
+  noise.frequency.exponentialRampToValueAtTime(
+      1500 + frequencyIncrease,
+      context.currentTime + 0.05
+  );
+  noise.frequency.exponentialRampToValueAtTime(
+      1200 + frequencyIncrease,
+      context.currentTime + 0.15
+  );
+
+  const gain = new GainNode(context, { gain: .5 });
+  gain.gain.exponentialRampToValueAtTime(
+      0.01,
+      context.currentTime + 0.2
+  );
+
+  const filter = new BiquadFilterNode(context, { type: "bandpass", Q: 1 });
+
+  noise
+      .connect(filter)
+      .connect(gain)
+      .connect(context.destination);
+  noise.start();
+  noise.stop(context.currentTime + 0.2);
 }

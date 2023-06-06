@@ -34,8 +34,6 @@ async function init() {
   initPicker(games, handleSelectGame);
   initPlayer(handleExit);
 
-  document.addEventListener("keydown", handleButtonDown);
-  document.addEventListener("keyup", handleButtonUp);
   document.addEventListener("custombuttondown", handleButtonDown);
   document.addEventListener("custombuttonup", handleButtonUp);
   requestAnimationFrame(handleAnimationFrame);

@@ -1,21 +1,16 @@
 const buttonMap = {
     [0]: "A",
+    [1]: "B",
+    [2]: "X",
+    [3]: "Y",
+    [4]: "C",
+    [5]: "Z",
     [8]: "Stop",
     [9]: "Start",
     [12]: "Up",
     [13]: "Down",
     [14]: "Left",
     [15]: "Right",
-};
-
-const keyMap = {
-    A: [" ", "?"],
-    Stop: ["Escape", "?"],
-    Start: ["?", "?"],
-    Up: ["ArrowUp", "w"],
-    Down: ["ArrowDown", "s"],
-    Left: ["ArrowLeft", "a"],
-    Right: ["ArrowRight", "d"],
 };
 
 let player1 = {};
@@ -44,7 +39,6 @@ function processPlayer(player, gamepad, playerNumber) {
             });
             event.button = buttonMap[i];
             event.player = playerNumber;
-            event.key = keyMap[event.button][event.player - 1];
             document.dispatchEvent(event);
             player.buttons[i] = gamepad.buttons[i].pressed;
         }
