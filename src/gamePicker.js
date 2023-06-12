@@ -111,6 +111,11 @@ export function handleButtonDown(event) {
         selectGame(getSelectedGame());
       }
       break;
+    case "Stop":
+      if (event.player === 2) {
+        window.close();
+      }
+      break;
     default:
     // nothing
   }

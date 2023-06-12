@@ -33,7 +33,7 @@ export function init(quit) {
 }
 
 export async function loadGame(game) {
-  gamepadHandler = new GamepadHandler(vm, "!UDLRS_____!^V<>*_____", onQuit);
+  gamepadHandler = new GamepadHandler(vm, "!UDLRSzx___!^V<>*_____", onQuit);
   // gamepadHandler = new GamepadHandler(vm, "!^V<>*_____!UDLRS_____", onQuit);
 
   vm.stopAll();
