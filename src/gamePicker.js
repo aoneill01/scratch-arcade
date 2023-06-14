@@ -35,7 +35,7 @@ export function init(games, handleSelectGame) {
   setGameDescription();
 }
 
-export function handleAnimationFrame(deltaTime, time) {
+export function handleAnimationFrame(deltaTime, time, mode) {
   // Apply physics
   let maxVelocity = 8;
   if (acceleration === 0) {
@@ -49,9 +49,11 @@ export function handleAnimationFrame(deltaTime, time) {
   const previousOffset = offset;
   offset += velocity * deltaTime;
 
-  if ((velocity > 0 && Math.floor(offset - .05) !== Math.floor(previousOffset - .05)) ||
-    (velocity < 0 && Math.floor(offset + .05) !== Math.floor(previousOffset + .05))) {
-    playSound();
+  if (mode === "picking") {
+    if ((velocity > 0 && Math.floor(offset - .05) !== Math.floor(previousOffset - .05)) ||
+      (velocity < 0 && Math.floor(offset + .05) !== Math.floor(previousOffset + .05))) {
+      playTick();
+    }
   }
 
   // Reposition a small number of boxes around the center
@@ -108,6 +110,7 @@ export function handleButtonDown(event) {
     case "Y":
     case "Z":
       if (selected !== null) {
+        playSelect();
         selectGame(getSelectedGame());
       }
       break;
@@ -352,9 +355,9 @@ function setGameDescription() {
 
 const context = new AudioContext();
 
-function playSound() {
+function playTick() {
   const frequencyIncrease = Math.abs(velocity) * 20;
-  const noise = new OscillatorNode(context, { frequency: 1000 + frequencyIncrease, type: "triangle" });
+  const noise = new OscillatorNode(context, { frequency: 1000 + frequencyIncrease, type: "sawtooth" });
   noise.frequency.exponentialRampToValueAtTime(
       1500 + frequencyIncrease,
       context.currentTime + 0.05
@@ -369,6 +372,27 @@ function playSound() {
       0.01,
       context.currentTime + 0.2
   );
+
+  const filter = new BiquadFilterNode(context, { type: "bandpass", Q: 1 });
+
+  noise
+      .connect(filter)
+      .connect(gain)
+      .connect(context.destination);
+  noise.start();
+  noise.stop(context.currentTime + 0.2);
+}
+
+function playSelect() {
+  const noise = new OscillatorNode(context, { frequency: 1000, type: "sawtooth" });
+  noise.frequency.setValueAtTime(
+      1500,
+      context.currentTime + 0.1
+  );
+
+  const gain = new GainNode(context, { gain: .5 });
+  gain.gain.setValueAtTime(0.5, context.currentTime + 0.1);
+  gain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.2);
 
   const filter = new BiquadFilterNode(context, { type: "bandpass", Q: 1 });
 

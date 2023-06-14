@@ -73,7 +73,7 @@ function handleAnimationFrame(time) {
         handleAnimationFramePlayer(deltaTime, time);
         break;
       default:
-        handleAnimationFramePicker(deltaTime, time);
+        handleAnimationFramePicker(deltaTime, time, mode);
         break;
     }
   }
