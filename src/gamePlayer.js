@@ -2,6 +2,8 @@ import "../lib/player";
 import { GamepadHandler } from "./gamepadHandler";
 import { reset, updateMonitors } from "./monitors";
 
+const DEFAULT_CONTROLS = "!UDLRSzx___!^V<>*_____";
+
 let vm;
 let onQuit;
 let gamepadHandler;
@@ -33,8 +35,7 @@ export function init(quit) {
 }
 
 export async function loadGame(game) {
-  gamepadHandler = new GamepadHandler(vm, "!UDLRSzx___!^V<>*_____", onQuit);
-  // gamepadHandler = new GamepadHandler(vm, "!^V<>*_____!UDLRS_____", onQuit);
+  gamepadHandler = new GamepadHandler(vm, game.controls ?? DEFAULT_CONTROLS, onQuit);
 
   vm.stopAll();
   reset();

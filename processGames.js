@@ -27,7 +27,8 @@ async function run() {
             notes: json.description,
             author: json.author.username,
             sb3: `games/${dir.name}/${sb3}`,
-            image: `games/${dir.name}/image.png`
+            image: `games/${dir.name}/image.png`,
+            controls: json.controls
         });
     }
 

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Gugi&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -18,6 +18,7 @@ body {
   place-items: center;
   min-height: 100vh;
   background-color: black;
+  cursor: none;
 }
 
 #root {
@@ -108,11 +109,13 @@ h2 {
   margin: 0;
   font-size: 1.5em;
   text-align: center;
+  font-family: Staatliches;
 }
 
 h3 {
   margin: 0.5em 0 0 0;
   font-size: 1.25em;
+  font-family: Staatliches;
 }
 
 pre {
