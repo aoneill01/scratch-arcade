@@ -68,3 +68,7 @@ export function handleButtonUp(event) {
 export function handleAnimationFrame(delta, time) {
   gamepadHandler.handleAnimationFrame(delta, time);
 }
+
+export function handleMouseMove(event) {
+  gamepadHandler.handleMouseMove(event);
+}

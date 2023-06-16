@@ -135,7 +135,7 @@ pre {
   position: fixed;
   width: 2vw;
   opacity: 1;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 
 #cursor.hidden {

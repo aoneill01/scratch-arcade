@@ -135,6 +135,7 @@ export class GamepadHandler {
         Z: parseMapping(mapping.charAt(10)),
         Start: parseMapping("Start"),
         Stop: parseMapping("Stop"),
+        Click: parseMapping("*"),
       },
       2: {
         Up: parseMapping(mapping.charAt(12)),
@@ -149,6 +150,7 @@ export class GamepadHandler {
         Z: parseMapping(mapping.charAt(21)),
         Start: parseMapping("Start"),
         Stop: parseMapping("Stop"),
+        Click: parseMapping("*"),
       },
     };
     this.#onQuit = quit;
@@ -213,6 +215,22 @@ export class GamepadHandler {
     }
   }
 
+  handleMouseMove(event) {
+    this.#mouseState.position.x = clamp(
+      this.#mouseState.position.x + 0.5 * event.movementX,
+      0,
+      480
+    );
+    this.#mouseState.position.y = clamp(
+      this.#mouseState.position.y + 0.5 * event.movementY,
+      0,
+      360
+    );
+
+    this.#mouseState.markAction = true;
+    this.#moveCursor(); 
+  }
+
   handleAnimationFrame(delta, time) {
     if (this.#mouseState.markAction) {
       this.#mouseState.markAction = false;
@@ -238,7 +256,7 @@ export class GamepadHandler {
       this.#mouseState.heldSince = time;
     }
 
-    let t = (time - this.#mouseState.heldSince) / 2_000;
+    let t = (time - this.#mouseState.heldSince) / 1_000;
     if (t > 1) t = 1;
     const velocity = easeOutQuad(t);
 

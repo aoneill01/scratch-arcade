@@ -16,6 +16,7 @@ import {
   handleAnimationFrame as handleAnimationFramePlayer,
   handleButtonDown as handleButtonDownPlayer,
   handleButtonUp as handleButtonUpPlayer,
+  handleMouseMove as handleMouseMovePlayer,
   loadGame,
   greenFlag,
 } from "./gamePlayer.js";
@@ -36,6 +37,38 @@ async function init() {
 
   document.addEventListener("custombuttondown", handleButtonDown);
   document.addEventListener("custombuttonup", handleButtonUp);
+  document.addEventListener("mousedown", () => {
+    const event = new Event("custombuttondown", {
+        bubbles: true,
+        cancelable: true,
+    });
+    event.button = "Click";
+    event.player = 1;
+    document.dispatchEvent(event);
+  });
+  document.addEventListener("mouseup", () => {
+    const event = new Event("custombuttonup", {
+        bubbles: true,
+        cancelable: true,
+    });
+    event.button = "Click";
+    event.player = 1;
+    document.dispatchEvent(event);
+  });
+  
+  const body = document.querySelector("body");
+  const tmpClickHandler = async () => {
+    try {
+      await body.requestPointerLock();
+      body.removeEventListener("click", tmpClickHandler);
+      document.addEventListener("mousemove", handleMouseMove);
+    } catch (err) {
+      console.error(err);
+      alert(err);
+    }
+  };
+  body.addEventListener("click", tmpClickHandler);
+
   requestAnimationFrame(handleAnimationFrame);
   
   await reveal();
@@ -60,6 +93,14 @@ function handleButtonUp(event) {
     case "playing":
       handleButtonUpPlayer(event);
       break;
+  }
+}
+
+function handleMouseMove(event) {
+  switch (mode) {
+    case "playing":
+      handleMouseMovePlayer(event);
+      break; 
   }
 }
 

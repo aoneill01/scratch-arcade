@@ -31,7 +31,6 @@ function processPlayer(player, gamepad, playerNumber) {
         player.buttons[13] = false;
         player.buttons[14] = false;
         player.buttons[15] = false;
-        console.log('here', player);
         return;
     }
 
