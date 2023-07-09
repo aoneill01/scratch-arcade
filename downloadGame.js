@@ -37,13 +37,14 @@ async function downloadProject(projectId) {
             { "download.default_directory": projectDir }
         ))
         .build();
+    driver.manage().window().setRect({width: 1920, height: 1080});
     
     try {
         await driver.get(`${baseSiteUrl}/projects/${projectId}/editor/`);
         
-        const file = await driver.wait(until.elementLocated(By.xpath('//div[contains(@class, "menu-bar_menu-bar-item")]//*[text()="File"]')));
         await driver.wait(async (d) => (await d.findElements(By.xpath('//*[contains(@class, "loader_background")]'))).length === 0);
 
+        const file = await driver.wait(until.elementLocated(By.xpath('//*[text()="File"]')));
         await file.click();
         const save = await driver.findElement(By.xpath('//*[text()="Save to your computer"]'));
         await save.click();

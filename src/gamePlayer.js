@@ -1,5 +1,6 @@
 import "../lib/player";
 import { GamepadHandler } from "./gamepadHandler";
+import { LocalCloudProvider } from "./localCloudProvider";
 import { reset, updateMonitors } from "./monitors";
 
 const DEFAULT_CONTROLS = "!UDLRSzx___!^V<>*_____";
@@ -32,6 +33,9 @@ export function init(quit) {
   vm.attachV2BitmapAdapter(new ScratchSVGRenderer.BitmapAdapter());
   vm.setCompatibilityMode(true);
   vm.addListener("MONITORS_UPDATE", (monitors) => updateMonitors(monitors, vm));
+
+  // Set username
+  vm.postIOData("userData", {username: "arcade"});
 }
 
 export async function loadGame(game) {
@@ -42,6 +46,7 @@ export async function loadGame(game) {
   const response = await fetch(game.sb3);
   const buffer = await response.arrayBuffer();
   await vm.loadProject(buffer);
+  vm.setCloudProvider(new LocalCloudProvider(vm, game.id));
   vm.start();
 }
 
